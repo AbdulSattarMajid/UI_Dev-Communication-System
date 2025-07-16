@@ -1,6 +1,8 @@
-// Components/Channels/ChannelPage.jsx
 import { useParams } from "react-router-dom"
 import { useEffect, useState } from "react"
+import { isAdmin } from "../utils/roles"
+import AddMemberForm from "../Channels/AddMemberForm"
+
 
 const ChannelPage = () => {
   const { projectId, channelId } = useParams()
@@ -16,7 +18,7 @@ const ChannelPage = () => {
     if (foundProject) {
       setProject(foundProject)
       const foundChannel = (foundProject.channels || []).find(c => String(c.id) === channelId)
-      if (foundChannel) setChannel({ ...foundChannel, isAdmin: true }) // ✅ Default admin
+      if (foundChannel) setChannel(foundChannel)
     }
 
     const stored = JSON.parse(localStorage.getItem("chats")) || {}
@@ -75,9 +77,9 @@ const ChannelPage = () => {
   if (!project || !channel) return <div className="p-6">Channel not found</div>
 
   return (
-    <div className="flex flex-col h-screen bg-gray-50">
-      {/* Header */}
-      <div className="bg-white border-b p-4 text-sm flex justify-between items-center shadow-sm">
+    <div className="relative h-[calc(100vh-4rem)] flex flex-col bg-gray-50">
+      {/* Fixed Header */}
+      <div className="bg-blue-50  p-6 text-sm flex justify-between items-center shadow-sm fixed w-full  z-10" style={{ top: "4rem" }}>
         <div className="space-y-1">
           <h1 className="text-lg font-semibold text-gray-800">
             <span className="text-blue-600 font-bold">#{channel.name}</span>
@@ -88,28 +90,17 @@ const ChannelPage = () => {
           </p>
         </div>
 
-        {/* Add member input (admin only) */}
-        {channel.isAdmin && (
-          <div className="flex items-center gap-2">
-            <input
-              type="email"
-              value={newMemberEmail}
-              onChange={(e) => setNewMemberEmail(e.target.value)}
-              placeholder="Add member by email"
-              className="px-2 py-1 border rounded text-xs w-48"
-            />
-            <button
-              onClick={handleAddMember}
-              className="text-white bg-green-600 hover:bg-green-700 text-xs px-3 py-1 rounded"
-            >
-              Add
-            </button>
-          </div>
-        )}
+      {/* Add Member - Admin Only */}
+      {isAdmin() && (
+        <div className="bg-white rounded-lg shadow p-2 mr-[15rem]">
+          <h2 className="text-xl font-semibold mb-4">Add Members</h2>
+          <AddMemberForm onAddMember={handleAddMember} />
+        </div>
+      )}
       </div>
 
-      {/* Messages */}
-      <div className="flex-1 overflow-y-auto p-4 space-y-2">
+      {/* Scrollable Messages */}
+      <div className="flex-1 overflow-y-auto p-4 pt-[6.5rem] pb-[5.5rem]">
         {messages.length === 0 ? (
           <p className="text-gray-400 italic">No messages yet</p>
         ) : (
@@ -144,9 +135,8 @@ const ChannelPage = () => {
         )}
       </div>
 
-      {/* Input Bar */}
-      <div className="bg-white border-t px-4 py-3 flex items-center gap-2">
-        {/* Upload icon */}
+      {/* Fixed Input Bar */}
+      <div className="bg-white border-t px-4 py-3 flex items-center gap-2 fixed w-full  bottom-0 z-10">
         <label
           htmlFor="file-upload"
           className="cursor-pointer text-blue-600 hover:text-blue-800"
@@ -168,7 +158,6 @@ const ChannelPage = () => {
           onChange={handleFileUpload}
         />
 
-        {/* Message input */}
         <input
           type="text"
           value={message}

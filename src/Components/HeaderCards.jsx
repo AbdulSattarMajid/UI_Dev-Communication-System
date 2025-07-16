@@ -1,18 +1,20 @@
 import React from 'react'
 import { Briefcase, List, Users, Target } from 'lucide-react'
-
+import { isAdmin } from '../utils/roles'
 const HeaderCards = ({ projects, openForm, totalChannels = 0 }) => {
   return (
     <div className="relative bg-[#4b5cfb] pt-8 pb-[7.5rem]">
       {/* Header */}
       <div className="flex justify-between items-center mt-5 px-[3%]">
         <h1 className="text-[1.8rem] text-white">Projects</h1>
-        <button
-          onClick={openForm}
-          className="bg-white font-semibold px-4 py-2 border rounded hover:bg-gray-200 transition-colors"
-        >
-          Create New Project
-        </button>
+        {isAdmin() && (
+          <button
+            onClick={openForm}
+            className="bg-white font-semibold px-4 py-2 border rounded hover:bg-gray-200 transition-colors"
+          >
+            Create New Project
+          </button>
+        )}
       </div>
 
       {/* Cards (floating within blue background) */}

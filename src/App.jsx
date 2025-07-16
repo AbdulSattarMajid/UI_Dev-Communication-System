@@ -1,11 +1,12 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import Sidebar from "./Components/Sidebar"
-import TopNavbar from "./Authentication/TopNavbar"
+import TopNavbar from "./Components/TopNavbar"
 import ProjectsDetails from "./mainPages/ProjectsDetails"
 import ProjectPage from './mainPages/ProjectPage'
 import ChannelPage from './mainPages/ChannelPage'
 
 export default function App() {
+  localStorage.setItem("isAdmin", true); 
   return (
     <Router>
       <div className="h-screen flex">

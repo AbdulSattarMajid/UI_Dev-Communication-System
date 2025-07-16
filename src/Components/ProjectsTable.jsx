@@ -1,6 +1,7 @@
 import React from 'react'
 import { Edit, Trash2 } from 'lucide-react'
 import { Link } from 'react-router-dom'
+import { isAdmin } from '../utils/roles'
 
 const priorityStyles = {
     Low: 'bg-green-100 text-green-800',
@@ -59,39 +60,45 @@ const ProjectsTable = ({ projects, handleEdit, handleDelete, handleMarkCompleted
                                             View Details
                                         </Link>
                                     </td>
-                                    <td className="px-6 py-4 flex items-center gap-2">
-                                        {project.completed ? (
-                                            <button
-                                                onClick={() => handleMarkActive(project.id)}
-                                                className="text-blue-600 hover:text-blue-800"
-                                                title="Mark as Active"
-                                            >
-                                                🔄
-                                            </button>
-                                        ) : (
-                                            <button
-                                                onClick={() => handleMarkCompleted(project.id)}
-                                                className="text-green-600 hover:text-green-800"
-                                                title="Mark as Completed"
-                                            >
-                                                ✅
-                                            </button>
-                                        )}
-                                        <button
-                                            onClick={() => handleEdit(project)}
-                                            className="text-blue-500 hover:text-blue-700"
-                                            title="Edit"
-                                        >
-                                            <Edit size={18} />
-                                        </button>
-                                        <button
-                                            onClick={() => handleDelete(project.id)}
-                                            className="text-red-500 hover:text-red-700"
-                                            title="Delete"
-                                        >
-                                            <Trash2 size={18} />
-                                        </button>
-                                    </td>
+                                   <td className="px-6 py-4 flex items-center gap-2">
+  {isAdmin() && (
+    <>
+      {project.completed ? (
+        <button
+          onClick={() => handleMarkActive(project.id)}
+          className="text-blue-600 hover:text-blue-800"
+          title="Mark as Active"
+        >
+          🔄
+        </button>
+      ) : (
+        <button
+          onClick={() => handleMarkCompleted(project.id)}
+          className="text-green-600 hover:text-green-800"
+          title="Mark as Completed"
+        >
+          ✅
+        </button>
+      )}
+
+      <button
+        onClick={() => handleEdit(project)}
+        className="text-blue-500 hover:text-blue-700"
+        title="Edit"
+      >
+        <Edit size={18} />
+      </button>
+
+      <button
+        onClick={() => handleDelete(project.id)}
+        className="text-red-500 hover:text-red-700"
+        title="Delete"
+      >
+        <Trash2 size={18} />
+      </button>
+    </>
+  )}
+</td>
                                 </tr>
                             ))
                         )}

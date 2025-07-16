@@ -24,6 +24,16 @@ const navItems = [
 
 export default function Sidebar() {
     const [activeIndex, setActiveIndex] = useState(0);
+const handleLogout = (e) => {
+    e.preventDefault();
+
+    const isAdmin = localStorage.getItem("isAdmin") === "true";
+    localStorage.setItem("isAdmin", (!isAdmin).toString());
+
+    alert(`Admin status changed to: ${!isAdmin}`);
+
+
+};
 
     return (
         <div
@@ -83,7 +93,7 @@ export default function Sidebar() {
                 })}
 
                 {/* Logout Button */}
-                <a
+                <a onClick={handleLogout}
                     href="#"
                     className="flex items-center gap-2 px-3 py-2 rounded text-sm mt-4 transition bg-[#3949ab] hover:bg-gradient-to-r hover:from-black hover:via-indigo-900 hover:to-blue-500 hover:text-white"
                 >

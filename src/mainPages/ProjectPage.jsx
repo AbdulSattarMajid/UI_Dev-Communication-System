@@ -4,7 +4,7 @@ import { useEffect, useState } from "react"
 import ProjectInfo from "../Components/ProjectInfo"
 import CreateChannelForm from "../Channels/CreateChannelForm"
 import ChannelCard from "../Channels/ChannelCard"
-import AddMemberForm from "../Channels/AddMemberForm"
+import { isAdmin } from "../utils/roles"
 
 const ProjectPage = () => {
   const { id } = useParams()
@@ -12,9 +12,7 @@ const ProjectPage = () => {
   const [channelName, setChannelName] = useState("")
   const [channels, setChannels] = useState([])
   const [openDropdownId, setOpenDropdownId] = useState(null)
-  const [members, setMembers] = useState([])
   const [channelDescription, setChannelDescription] = useState("")
-
 
   // Load project from localStorage
   useEffect(() => {
@@ -44,7 +42,6 @@ const ProjectPage = () => {
       id: Date.now(),
       name: channelName.trim(),
       description: channelDescription.trim(),
-      isAdmin: true,
     }
 
     const updated = [newChannel, ...channels]
@@ -54,25 +51,23 @@ const ProjectPage = () => {
     updateLocalStorageChannels(updated)
   }
 
-
   // Edit Channel
-const handleEditChannel = (channelId) => {
-  const existingChannel = channels.find((ch) => ch.id === channelId)
-  const newName = prompt("Enter new channel name:", existingChannel.name)
-  const newDescription = prompt("Enter new description (optional):", existingChannel.description || "")
+  const handleEditChannel = (channelId) => {
+    const existingChannel = channels.find((ch) => ch.id === channelId)
+    const newName = prompt("Enter new channel name:", existingChannel.name)
+    const newDescription = prompt("Enter new description (optional):", existingChannel.description || "")
 
-  if (!newName) return
+    if (!newName) return
 
-  const updated = channels.map((ch) =>
-    ch.id === channelId
-      ? { ...ch, name: newName.trim(), description: newDescription.trim() }
-      : ch
-  )
+    const updated = channels.map((ch) =>
+      ch.id === channelId
+        ? { ...ch, name: newName.trim(), description: newDescription.trim() }
+        : ch
+    )
 
-  setChannels(updated)
-  updateLocalStorageChannels(updated)
-}
-
+    setChannels(updated)
+    updateLocalStorageChannels(updated)
+  }
 
   // Delete Channel
   const handleDeleteChannel = (channelId) => {
@@ -94,16 +89,16 @@ const handleEditChannel = (channelId) => {
       {/* Project Info */}
       <ProjectInfo project={project} />
 
-      {/* Channel Creation */}
-      <CreateChannelForm
-        channelName={channelName}
-        setChannelName={setChannelName}
-        channelDescription={channelDescription}
-        setChannelDescription={setChannelDescription}
-        handleAddChannel={handleAddChannel}
-      />
-
-
+      {/* Channel Creation - Admin Only */}
+      {isAdmin() && (
+        <CreateChannelForm
+          channelName={channelName}
+          setChannelName={setChannelName}
+          channelDescription={channelDescription}
+          setChannelDescription={setChannelDescription}
+          handleAddChannel={handleAddChannel}
+        />
+      )}
 
       {/* Channel List */}
       <div className="bg-white rounded-lg shadow p-6">
@@ -127,14 +122,7 @@ const handleEditChannel = (channelId) => {
         )}
       </div>
 
-      {/* Add Member Section - Visible if project isAdmin */}
-      {project.isAdmin && (
-        <div className="bg-white rounded-lg shadow p-6">
-          <h2 className="text-xl font-semibold mb-4">Add Members</h2>
-          <AddMemberForm onAddMember={handleAddMember} />
-          <MemberList members={members} />
-        </div>
-      )}
+
     </div>
   )
 }

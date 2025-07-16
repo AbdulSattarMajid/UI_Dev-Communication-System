@@ -11,20 +11,20 @@ const AddMemberForm = ({ onAddMember }) => {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-3">
+    <form onSubmit={handleSubmit} className="flex space-x-2 ">
       <input
         type="email"
-        placeholder="Enter member email"
+        placeholder="Member email"
         value={email}
         onChange={(e) => setEmail(e.target.value)}
-        className="border px-4 py-2 rounded w-full"
+        className="border px-2 py-1 rounded text-sm flex-1"
         required
       />
       <button
         type="submit"
-        className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
+        className="bg-blue-600 text-white px-3 py-1 rounded text-sm hover:bg-blue-700"
       >
-        Add Member
+        Add
       </button>
     </form>
   )
