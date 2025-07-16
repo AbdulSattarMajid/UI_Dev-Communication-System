@@ -1,7 +1,7 @@
 import React from 'react'
 import { Briefcase, List, Users, Target } from 'lucide-react'
 
-const HeaderCards = ({ projects, openForm }) => {
+const HeaderCards = ({ projects, openForm, totalChannels = 0 }) => {
   return (
     <div className="relative bg-[#4b5cfb] pt-8 pb-[7.5rem]">
       {/* Header */}
@@ -34,8 +34,15 @@ const HeaderCards = ({ projects, openForm }) => {
               </div>
             </div>
             <h2 className="text-3xl font-bold">
-              {i === 0 ? projects.length : i === 3 ? '0%' : 0}
+              {i === 0
+                ? projects.length
+                : i === 1
+                  ? 0
+                  : i === 2
+                    ? totalChannels
+                    : '0%'}
             </h2>
+
             <p className="text-sm text-gray-500">--</p>
           </div>
         ))}

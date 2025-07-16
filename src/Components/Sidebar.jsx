@@ -12,7 +12,7 @@ import {
 } from 'lucide-react';
 
 const navItems = [
-    { label: 'Projects', icon: <MessageSquare />, link: '/' }, // Changed link to "/"
+    { label: 'Projects', icon: <MessageSquare />, link: '/' }, 
     { label: 'Dashboard', icon: <Home />, link: '#' },
     { label: 'Check In/Out', icon: <Clock />, link: '#' },
     { label: 'Time Table', icon: <Calendar />, link: '#' },

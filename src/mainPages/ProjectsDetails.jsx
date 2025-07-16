@@ -4,7 +4,6 @@ import ProjectFormModal from '../Components/ProjectFormModal'
 import ProjectsTable from '../Components/ProjectsTable'
 
 const ProjectsDetails = () => {
-
     const [showForm, setShowForm] = useState(false)
     const [editMode, setEditMode] = useState(false)
     const [editingId, setEditingId] = useState(null)
@@ -13,6 +12,7 @@ const ProjectsDetails = () => {
         const saved = localStorage.getItem('projects');
         return saved ? JSON.parse(saved) : [];
     });
+    const totalChannels = projects.reduce((sum, p) => sum + (p.channels?.length || 0), 0)
 
     useEffect(() => {
         localStorage.setItem('projects', JSON.stringify(projects));
@@ -37,7 +37,7 @@ const ProjectsDetails = () => {
         }
         setFormData({ name: '', priority: 'Low' })
         setShowForm(false)
-        
+
     }
 
     const handleEdit = (project) => {
@@ -82,14 +82,18 @@ const ProjectsDetails = () => {
                 />
             )}
 
-            <HeaderCards projects={projects} openForm={() => setShowForm(true)} />
+            <HeaderCards
+                projects={projects}
+                totalChannels={totalChannels}
+                openForm={() => setShowForm(true)}
+            />
 
             <div className="mt-[6.5rem] px-[3%]">
                 <div className="bg-white border-2 shadow-lg border-gray-100 p-4 rounded-lg">
                     <h2 className="text-lg font-semibold text-gray-800">Active Projects</h2>
                 </div>
             </div>
-            
+
 
             <ProjectsTable
                 projects={projects}
