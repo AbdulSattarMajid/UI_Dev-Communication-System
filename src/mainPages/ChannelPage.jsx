@@ -100,14 +100,14 @@ const ChannelPage = () => {
       </div>
 
       {/* Scrollable Messages */}
-      <div className="flex-1 overflow-y-auto p-4 pt-[6.5rem] pb-[5.5rem]">
+      <div className="flex-1 overflow-y-auto p-4 pt-[7.5rem] pb-[6.5rem] mb-10">
         {messages.length === 0 ? (
           <p className="text-gray-400 italic">No messages yet</p>
         ) : (
           messages.map((msg) => (
             <div
               key={msg.id}
-              className="bg-white p-2 rounded shadow-sm border border-gray-200 space-y-1"
+              className="bg-white p-2 rounded shadow-sm border border-x-blue-200 border-y-purple-800 mt-3 space-y-1"
             >
               {msg.type === "text" && <div className="text-sm">{msg.text}</div>}
 
@@ -136,7 +136,7 @@ const ChannelPage = () => {
       </div>
 
       {/* Fixed Input Bar */}
-      <div className="bg-white border-t px-4 py-3 flex items-center gap-2 fixed w-full  bottom-0 z-10">
+      <div className="bg-white border-t px-4 py-3 flex items-center gap-2 fixed overflow-y-auto  max-w-full right-0 left-0 ml-64 bottom-0 z-10">
         <label
           htmlFor="file-upload"
           className="cursor-pointer text-blue-600 hover:text-blue-800"
