@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom'; // <-- Import Link
+import { Link } from 'react-router-dom'; 
 import logo from "../Images/Logo.png";
 import {
     MessageSquare,
@@ -93,13 +93,13 @@ const handleLogout = (e) => {
                 })}
 
                 {/* Logout Button */}
-                <a onClick={handleLogout}
-                    href="#"
+                <Link onClick={handleLogout}
+                    to="#"
                     className="flex items-center gap-2 px-3 py-2 rounded text-sm mt-4 transition bg-[#3949ab] hover:bg-gradient-to-r hover:from-black hover:via-indigo-900 hover:to-blue-500 hover:text-white"
                 >
                     <LogOut size={18} />
                     Logout
-                </a>
+                </Link>
             </nav>
         </div>
     );

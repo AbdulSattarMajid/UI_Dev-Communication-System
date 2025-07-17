@@ -6,7 +6,7 @@ import ProjectPage from './mainPages/ProjectPage'
 import ChannelPage from './mainPages/ChannelPage'
 
 export default function App() {
-  localStorage.setItem("isAdmin", false); 
+  localStorage.setItem("isAdmin", true); 
   return (
     <Router>
       <div className="h-screen flex">
